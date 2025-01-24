@@ -1,0 +1,38 @@
+// Image preview animations
+.image-preview-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.image-preview-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.image-preview-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.image-preview-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+
+// Hover effects for the image container
+.group:hover {
+  .remove-image-button {
+    opacity: 1;
+  }
+}
+
+// Image upload input styling
+input[type="file"] {
+  &::file-selector-button {
+    @apply mr-4 py-2 px-4 rounded-full border-0 text-sm font-semibold
+    bg-purple-500 text-white hover:bg-purple-600 transition-colors duration-200;
+  }
+}
+

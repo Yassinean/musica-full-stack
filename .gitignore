@@ -1,0 +1,96 @@
+# Frontend: Angular Project
+
+# Compiled output
+/MusicStream_Front/dist
+/MusicStream_Front/tmp
+/MusicStream_Front/out-tsc
+/MusicStream_Front/bazel-out
+
+# Node modules
+/MusicStream_Front/node_modules
+/MusicStream_Front/npm-debug.log
+/MusicStream_Front/yarn-error.log
+
+# IDEs and editors
+/MusicStream_Front/.idea/
+/MusicStream_Front/.project
+/MusicStream_Front/.classpath
+/MusicStream_Front/.c9/
+MusicStream_Front/*.launch
+/MusicStream_Front/.settings/
+/MusicStream_Front/*.sublime-workspace
+
+# Visual Studio Code
+/MusicStream_Front/.vscode/*
+!/MusicStream_Front/.vscode/settings.json
+!/MusicStream_Front/.vscode/tasks.json
+!/MusicStream_Front/.vscode/launch.json
+!/MusicStream_Front/.vscode/extensions.json
+/MusicStream_Front/.history/*
+
+# Miscellaneous
+/MusicStream_Front/.angular/cache
+/MusicStream_Front/.sass-cache/
+/MusicStream_Front/connect.lock
+/MusicStream_Front/coverage
+/MusicStream_Front/libpeerconnection.log
+/MusicStream_Front/testem.log
+/MusicStream_Front/typings
+
+# System files
+/MusicStream_Front/.DS_Store
+/MusicStream_Front/Thumbs.db
+
+# Badfckend: Spring Boot Project
+
+# Maven target folder
+/MusicStream_Back/target/
+!/MusicStream_Back/.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Spring Tool Suite
+/MusicStream_Back/.apt_generated
+/MusicStream_Back/.classpath
+/MusicStream_Back/.factorypath
+/MusicStream_Back/.project
+/MusicStream_Back/.settings/
+/MusicStream_Back/.springBeans
+/MusicStream_Back/.sts4-cache
+
+# IntelliJ IDEA
+/MusicStream_Back/.idea
+/MusicStream_Back/*.iws
+/MusicStream_Back/*.iml
+/MusicStream_Back/*.ipr
+
+# NetBeans
+/MusicStream_Back/nbproject/private/
+/MusicStream_Back/nbbuild/
+/MusicStream_Back/dist/
+/MusicStream_Back/nbdist/
+/MusicStream_Back/.nb-gradle/
+/MusicStream_Back/build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Visual Studio Code
+/MusicStream_Back/.vscode/
+
+# General Rules for Both Frontend and Backend
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs and debug files
+*.log
+*.bak
+
+# Temporary files
+*.swp
+*.tmp
+*.temp
+
+# Environment files
+*.env

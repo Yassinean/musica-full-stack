@@ -1,0 +1,47 @@
+services:
+  musica-app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/musicadb
+      - SPRING_MVC_CORS_ALLOWED-ORIGINS=http://localhost:4200,http://host.docker.internal:4200
+    depends_on:
+      - mongodb
+    networks:
+      - musica-net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - musica-net
+    volumes:
+      - mongo-data:/data/db
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    ports:
+      - "8081:8081"  # Mongo Express will run on port 8081
+    environment:
+      - ME_CONFIG_MONGODB_URL=mongodb://mongodb:27017/musicadb  # Connect to your MongoDB container
+    networks:
+      - musica-net
+    depends_on:
+      - mongodb
+
+networks:
+  musica-net:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
+  jenkins_home:
+    driver: local

@@ -1,0 +1,48 @@
+<div class="fixed w-full top-0 left-0 z-50">
+  <div class="relative bg-gradient-to-r from-indigo-900/95 via-purple-900/95 to-pink-900/95 backdrop-blur-lg border-b border-purple-500/20 shadow-lg">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex justify-between items-center h-20">
+        <div class="text-2xl font-bold">
+          <a routerLink="/" class="flex items-center">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2">
+              <rect width="40" height="40" rx="8" fill="url(#paint0_linear)" />
+              <path d="M20 8C13.3726 8 8 13.3726 8 20C8 26.6274 13.3726 32 20 32C26.6274 32 32 26.6274 32 20C32 13.3726 26.6274 8 20 8ZM20 30C14.4772 30 10 25.5228 10 20C10 14.4772 14.4772 10 20 10C25.5228 10 30 14.4772 30 20C30 25.5228 25.5228 30 20 30Z" fill="white"/>
+              <path d="M20 14C16.6863 14 14 16.6863 14 20C14 23.3137 16.6863 26 20 26C23.3137 26 26 23.3137 26 20C26 16.6863 23.3137 14 20 14ZM20 24C17.7909 24 16 22.2091 16 20C16 17.7909 17.7909 16 20 16C22.2091 16 24 17.7909 24 20C24 22.2091 22.2091 24 20 24Z" fill="white"/>
+              <circle cx="20" cy="20" r="2" fill="white"/>
+              <defs>
+                <linearGradient id="paint0_linear" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#818CF8"/>
+                  <stop offset="1" stop-color="#E879F9"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 hover:from-indigo-500 hover:to-pink-500 transition-all duration-300">Harmony</span>
+          </a>
+        </div>
+        <div class="flex items-center space-x-4">
+          <a routerLink="/library" routerLinkActive="bg-indigo-600/30" class="group relative overflow-hidden px-6 py-2.5 rounded-full bg-gradient-to-r from-indigo-500/20 to-pink-500/20 text-white font-semibold tracking-wide focus:outline-none transition-all duration-300 hover:from-indigo-500/30 hover:to-pink-500/30 border border-indigo-500/30 hover:shadow-[0_0_15px_rgba(99,102,241,0.3)]">
+            <span class="relative z-10">Library</span>
+            <div class="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-pink-600/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+          </a>
+          <a routerLink="/albums" routerLinkActive="bg-indigo-600/30" class="group relative overflow-hidden px-6 py-2.5 rounded-full bg-gradient-to-r from-indigo-500/20 to-pink-500/20 text-white font-semibold tracking-wide focus:outline-none transition-all duration-300 hover:from-indigo-500/30 hover:to-pink-500/30 border border-indigo-500/30 hover:shadow-[0_0_15px_rgba(99,102,241,0.3)]">
+            <span class="relative z-10">Albums</span>
+            <div class="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-pink-600/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+          </a>
+          <a routerLink="/track/add" class="group relative overflow-hidden px-6 py-2.5 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-base font-semibold tracking-wide focus:outline-none transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(99,102,241,0.5)]">
+            <span class="relative z-10">Add Track</span>
+            <div class="absolute inset-0 bg-gradient-to-r from-indigo-700 to-purple-700 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+          </a>
+          <button (click)="logout()" class="group relative overflow-hidden px-6 py-2.5 rounded-full bg-gradient-to-r from-pink-600 to-red-600 text-white font-semibold tracking-wide focus:outline-none transition-all duration-300 hover:from-pink-700 hover:to-red-700 hover:scale-105 hover:shadow-[0_0_25px_rgba(244,63,94,0.5)]">
+                <span class="relative z-10 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd" />
+                  </svg>
+                  Logout
+                </span>
+            <div class="absolute inset-0 bg-gradient-to-r from-pink-700 to-red-700 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/musica_prod
+logging:
+  level:
+    org.springframework.data.mongodb: INFO
