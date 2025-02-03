@@ -2,6 +2,11 @@ spring:
   data:
     mongodb:
       uri: ${MONGO_URI:mongodb://mongodb:27017/musicadb}
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
   mvc:
     cors:
       allowed-origins: http://localhost:4200,http://host.docker.internal:4200
@@ -11,3 +16,7 @@ spring:
 
 cors:
   allowed-origins: http://localhost:4200,http://localhost,http://host.docker.internal:4200
+
+logging:
+  level:
+    org.springframework: DEBUG

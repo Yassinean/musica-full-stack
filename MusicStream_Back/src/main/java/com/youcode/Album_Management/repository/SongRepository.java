@@ -8,4 +8,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface SongRepository extends MongoRepository<Song, String> {
     Page<Song> findByTitleContaining(String title, Pageable pageable);
     Page<Song> findByAlbumId(String albumId, Pageable pageable);
+    Page<Song> findByAlbumIdAndTitleContainingIgnoreCase(String albumId, String title, Pageable pageable);
 }

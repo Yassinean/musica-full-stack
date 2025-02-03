@@ -1,18 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Track, SongRequestDTO, SongResponseDTO} from '../../models/track.model';
-import {catchError, from, map, Observable, of, throwError} from "rxjs";
+import {Track, TrackPage} from '../../models/track.model';
+import {catchError, Observable, throwError} from "rxjs";
 import {environment} from "../../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 
-interface AudioFileRecord {
-  id: string;
-  file: Blob;
-}
 
-interface ImageFileRecord {
-  id: string;
-  file: Blob;
-}
 @Injectable({
   providedIn: 'root'
 })
@@ -20,64 +12,74 @@ export class TrackService {
   private readonly apiUrl = `${environment.apiUrl}/api`;
   constructor(private readonly http: HttpClient) {}
 
-  // Get all tracks (songs) for the user
-  getAllTracks(page: number = 0, size: number = 10, sortBy: string = 'title'): Observable<SongResponseDTO[]> {
-    return this.http.get<SongResponseDTO[]>(`${this.apiUrl}/user/songs`, {
-      params: { page: page.toString(), size: size.toString(), sortBy: sortBy },
-    }).pipe(
-      catchError((error) => {
-        console.error('Error fetching tracks', error);
-        return throwError(() => new Error('Error fetching tracks'));
-      })
-    );
+  getAllTracks(page: number = 0, size: number = 10, sortBy: string = 'title'): Observable<TrackPage> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sortBy', sortBy);
+    return this.http.get<TrackPage>(`${this.apiUrl}/user/songs`, { params });
   }
 
-  searchTracksByTitle(title: string, page: number = 0, size: number = 10, sortBy: string = 'title'): Observable<SongResponseDTO[]> {
-    return this.http.get<SongResponseDTO[]>(`${this.apiUrl}/user/songs/search`, {
-      params: { title, page: page.toString(), size: size.toString(), sortBy: sortBy },
-    }).pipe(
-      catchError((error) => {
-        console.error('Error searching tracks', error);
-        return throwError(() => new Error('Error searching tracks'));
-      })
-    );
+  searchTracks(title: string, page: number = 0, size: number = 10, sortBy: string = 'title'): Observable<TrackPage> {
+    const params = new HttpParams()
+      .set('title', title)
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sortBy', sortBy);
+    return this.http.get<TrackPage>(`${this.apiUrl}/user/songs/search`, { params });
   }
 
-  getTracksByAlbumId(albumId: string, page: number = 0, size: number = 10, sortBy: string = 'title'): Observable<SongResponseDTO[]> {
-    return this.http.get<SongResponseDTO[]>(`${this.apiUrl}/user/songs/album`, {
-      params: { albumId, page: page.toString(), size: size.toString(), sortBy: sortBy },
-    }).pipe(
-      catchError((error) => {
-        console.error('Error fetching tracks by album', error);
-        return throwError(() => new Error('Error fetching tracks by album'));
-      })
+  searchSongsByTitleInAlbum(
+    albumId: string,
+    title: string,
+    page: number = 0,
+    size: number = 10,
+    sortBy: string = 'title'
+  ): Observable<TrackPage> {
+    const params = new HttpParams()
+      .set('title', title)
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sortBy', sortBy);
+
+    return this.http.get<TrackPage>(
+      `${this.apiUrl}/user/songs/album/${albumId}/search`,
+      { params }
     );
+  }
+  getTracksByAlbum(albumId: string, page: number = 0, size: number = 10, sortBy: string = 'title'): Observable<TrackPage> {
+    const params = new HttpParams()
+      .set('albumId', albumId)
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sortBy', sortBy);
+    return this.http.get<TrackPage>(`${this.apiUrl}/admin/songs/album`, { params });
+  }
+  createTrack(trackData: Track, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('track', JSON.stringify(trackData)); // Append track data as JSON
+    formData.append('audioFile', file); // Append the file
+    formData.forEach((value, key) => {console.log(key + ' ' + value);});
+    return this.http.post(`${this.apiUrl}/admin/songs`, formData);
   }
 
-  createTrack(track: SongRequestDTO): Observable<SongResponseDTO> {
-    return this.http.post<SongResponseDTO>(`${this.apiUrl}/admin/songs`, track).pipe(
-      catchError((error) => {
-        console.error('Error creating track', error);
-        return throwError(() => new Error('Error creating track'));
-      })
-    );
-  }
-  updateTrack(id: string, track: SongRequestDTO): Observable<SongResponseDTO> {
-    return this.http.put<SongResponseDTO>(`${this.apiUrl}/admin/chansons/${id}`, track).pipe(
-      catchError((error) => {
-        console.error('Error updating track', error);
-        return throwError(() => new Error('Error updating track'));
-      })
-    );
+
+  updateTrack(id: string, track: Track, audioFile?: File): Observable<Track> {
+    const formData = new FormData();
+    formData.append('song', JSON.stringify(track));
+
+    if (audioFile) {
+      formData.append('audioFile', audioFile); // Append the file only if it exists
+    }
+
+    return this.http.put<Track>(`${this.apiUrl}/admin/songs/${id}`, formData);
   }
 
-  // Delete a track (song)
   deleteTrack(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/admin/chansons/${id}`).pipe(
-      catchError((error) => {
-        console.error('Error deleting track', error);
-        return throwError(() => new Error('Error deleting track'));
-      })
-    );
+    return this.http.delete<void>(`${this.apiUrl}/admin/songs/${id}`);
+  }
+
+  getTrackById(id: string): Observable<Track> {
+    return this.http.get<Track>(`${this.apiUrl}/admin/songs/${id}`);
   }
 }

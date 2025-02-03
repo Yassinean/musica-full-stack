@@ -23,7 +23,7 @@ export const authReducer = createReducer(
   initialState,
   on(AuthActions.login, (state) => ({
     ...state,
-    loading: true,
+    loading: false,
     error: null,
   })),
   on(AuthActions.loginSuccess, (state, { token, username, authorities }) => ({
@@ -43,7 +43,7 @@ export const authReducer = createReducer(
   })),
   on(AuthActions.register, (state) => ({
     ...state,
-    loading: true,
+    loading: false,
     error: null,
   })),
   on(AuthActions.registerSuccess, (state, { token, username, authorities }) => ({

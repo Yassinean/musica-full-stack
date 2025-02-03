@@ -13,8 +13,7 @@ export class TrackSearchPipe implements PipeTransform {
     const search = searchTerm.toLowerCase().trim();
 
     return tracks.filter(track =>
-      track.title?.toLowerCase().includes(search) ||
-      track.artist?.toLowerCase().includes(search)
+      track.title?.toLowerCase().includes(search)
     );
   }
 }

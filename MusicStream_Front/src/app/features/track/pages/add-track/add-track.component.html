@@ -1,8 +1,20 @@
 <div class="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 p-6 mt-20">
   <div class="max-w-2xl mx-auto">
     <div class="bg-white/10 backdrop-blur-md rounded-xl shadow-xl p-8 animate-fade-in">
-      <h2 class="text-3xl font-bold text-white mb-6">Add New Track</h2>
-      <form [formGroup]="trackForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <div class="flex items-center space-x-4 mb-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+        </svg>
+        <h2 class="text-3xl font-bold text-white">{{ isEditMode ? 'Edit Track' : 'Add New Track' }}</h2>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="error$ | async as error"
+           class="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-200 rounded-lg animate-fade-in">
+        {{ error }}
+      </div>
+
+      <form [formGroup]="trackForm" (ngSubmit)="onSubmit()" class="space-y-6" enctype="multipart/form-data">
         <!-- Title Field -->
         <div class="group">
           <label for="title" class="block text-sm font-medium text-indigo-200 mb-2">Title</label>
@@ -11,20 +23,13 @@
             id="title"
             formControlName="title"
             class="w-full px-4 py-3 bg-white/5 border border-indigo-200/20 rounded-lg text-white placeholder-indigo-200/50 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+            [ngClass]="{'border-red-500/50': trackForm.get('title')?.invalid && trackForm.get('title')?.touched}"
             placeholder="Enter track title"
           />
-        </div>
-
-        <!-- Artist Field -->
-        <div class="group">
-          <label for="artist" class="block text-sm font-medium text-indigo-200 mb-2">Artist</label>
-          <input
-            type="text"
-            id="artist"
-            formControlName="artist"
-            class="w-full px-4 py-3 bg-white/5 border border-indigo-200/20 rounded-lg text-white placeholder-indigo-200/50 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-            placeholder="Enter artist name"
-          />
+          <div *ngIf="trackForm.get('title')?.invalid && trackForm.get('title')?.touched"
+               class="mt-2 text-sm text-red-300 animate-fade-in">
+            Title is required
+          </div>
         </div>
 
         <!-- Description Field -->
@@ -39,69 +44,111 @@
           ></textarea>
         </div>
 
-        <!-- Duration Field -->
-        <div class="group">
-          <label for="duration" class="block text-sm font-medium text-indigo-200 mb-2">Duration (seconds)</label>
-          <input
-            type="number"
-            id="duration"
-            formControlName="duration"
-            class="w-full px-4 py-3 bg-white/5 border border-indigo-200/20 rounded-lg text-white placeholder-indigo-200/50 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-            placeholder="Enter track duration"
-          />
-        </div>
+        <!-- Auto-calculated Duration and Track Number -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="group">
+            <label class="block text-sm font-medium text-indigo-200 mb-2">Duration</label>
+            <div class="w-full px-4 py-3 bg-white/5 border border-indigo-200/20 rounded-lg text-white">
+              <span *ngIf="trackForm.get('duree')?.value">
+                {{ (trackForm.get('duree')?.value / 1000) | number:'1.0-0' }}s
+                ({{ (trackForm.get('duree')?.value / 1000 / 60) | number:'1.0-0' }}:{{ ((trackForm.get('duree')?.value / 1000) % 60) | number:'2.0-0' }})
+              </span>
+              <span *ngIf="!trackForm.get('duree')?.value" class="text-indigo-200/50">
+                Duration will be calculated from audio file
+              </span>
+            </div>
+          </div>
 
+          <div class="group">
+            <label class="block text-sm font-medium text-indigo-200 mb-2">Track Number</label>
+            <div class="w-full px-4 py-3 bg-white/5 border border-indigo-200/20 rounded-lg text-white">
+              <span *ngIf="trackForm.get('trackNumber')?.value">
+                {{ trackForm.get('trackNumber')?.value }}
+              </span>
+              <span *ngIf="!trackForm.get('trackNumber')?.value" class="text-indigo-200/50">
+                Auto-generated
+              </span>
+            </div>
+          </div>
+        </div>
         <!-- Category Field -->
         <div class="group">
           <label for="category" class="block text-sm font-medium text-indigo-200 mb-2">Category</label>
-          <select
-            id="category"
-            formControlName="category"
-            class="w-full px-4 py-3 bg-white/5 border border-indigo-200/20 rounded-lg text-white placeholder-indigo-200/50 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-          >
-            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-          </select>
+          <div class="relative">
+            <select
+              id="category"
+              formControlName="category"
+              class="w-full px-4 py-3 appearance-none bg-white/5 border border-indigo-200/20 rounded-lg text-white
+             focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200
+             [&>option]:bg-purple-900 [&>option]:text-white"
+            >
+              <option value="" disabled selected class="bg-purple-900 text-indigo-200">Select a category</option>
+              <option *ngFor="let category of categories" [value]="category" class="bg-purple-900 text-white">
+                {{category}}
+              </option>
+            </select>
+            <!-- Custom arrow icon -->
+            <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <svg class="w-5 h-5 text-indigo-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </div>
         </div>
 
-        <!-- Audio File Field -->
-        <div class="group">
-          <label for="audioFile" class="block text-sm font-medium text-indigo-200 mb-2">Audio File</label>
-          <input
-            type="file"
-            id="audioFile"
-            (change)="onAudioFileChange($event)"
-            accept="audio/*"
-            class="block w-full text-sm text-indigo-200 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-500 file:text-white hover:file:bg-indigo-400"
-          />
-        </div>
 
-        <!-- Cover Image Field -->
+
+        <!-- Audio File Upload -->
         <div class="group">
-          <label for="imageFile" class="block text-sm font-medium text-indigo-200 mb-2">Cover Image</label>
-          <input
-            type="file"
-            id="imageFile"
-            (change)="onImageFileChange($event)"
-            accept="image/*"
-            class="block w-full text-sm text-indigo-200 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-500 file:text-white hover:file:bg-indigo-400"
-          />
+          <label for="audioFile" class="block text-sm font-medium text-indigo-200 mb-2">Audio File<span>{{ isEditMode ? '(Optional)' : '' }}</span></label>
+          <div class="relative">
+            <input
+              type="file"
+              id="audioFile"
+              accept="audio/*"
+              (change)="onFileSelected($event)"
+              class="w-full px-4 py-3 bg-white/5 border border-indigo-200/20 rounded-lg text-white placeholder-indigo-200/50 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+            />
+            <div *ngIf="selectedFile" class="mt-2 text-sm text-indigo-200">
+              <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+                <span>{{ selectedFile.name }}</span>
+                <span class="text-indigo-300/70">({{ (selectedFile.size / 1024 / 1024) | number:'1.1-2' }} MB)</span>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!selectedFile && trackForm.touched && !isEditMode"
+               class="mt-2 text-sm text-red-300 animate-fade-in">
+            Audio file is required
+          </div>
         </div>
 
         <!-- Form Actions -->
-        <div class="flex justify-end space-x-4">
+        <div class="flex justify-end space-x-4 pt-6">
           <button
             type="button"
-            (click)="router.navigate(['/albums', albumId])"
+            (click)="onCancel()"
             class="px-6 py-3 border border-indigo-200/20 rounded-lg text-indigo-200 hover:bg-indigo-500/20 transition-all duration-200 transform hover:scale-105"
           >
             Cancel
           </button>
           <button
             type="submit"
-            [disabled]="!trackForm.valid || !audioFile"
+            [disabled]="trackForm.invalid || (!selectedFile && !isEditMode)|| (loading$ | async)"
             class="px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105"
           >
-            Add Track
+            <span *ngIf="loading$ | async" class="flex items-center space-x-2">
+              <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span>Uploading...</span>
+            </span>
+            <span *ngIf="!(loading$ | async)">
+              {{ isEditMode ? 'Update Track' : 'Add Track' }}
+            </span>
           </button>
         </div>
       </form>

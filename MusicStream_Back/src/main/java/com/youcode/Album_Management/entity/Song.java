@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Document(collection = "songs")
@@ -33,7 +34,7 @@ public class Song {
     private String description;
 
     @NotNull
-    private Date addedAt;
+    private LocalDate addedAt;
 
     private MusicCategory category; // You can also use an enum for MusicCategory
 

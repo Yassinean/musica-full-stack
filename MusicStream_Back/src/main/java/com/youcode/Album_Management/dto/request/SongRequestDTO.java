@@ -15,6 +15,9 @@ public class SongRequestDTO {
     @Size(max = 100, message = "Title must not exceed 100 characters")
     private String title;
 
+    @Size(max = 100, message = "Description must not exceed 100 characters")
+    private String description;
+
     @NotNull(message = "Duration is required")
     @Positive(message = "Duration must be a positive number")
     private Integer duree;
@@ -28,8 +31,8 @@ public class SongRequestDTO {
 
     private MusicCategory category; // You can also use an enum for MusicCategory
 
-    @NotBlank(message = "L'ID du fichier audio est obligatoire")
-    private String audioFileId;
+    @NotBlank(message = "fichier audio est obligatoire")
+    private String audioFile;
 
-    private String imageUrl;
+    private String ImageFile;
 }

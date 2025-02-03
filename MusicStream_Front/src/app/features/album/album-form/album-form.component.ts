@@ -70,6 +70,7 @@ export class AlbumFormComponent implements OnInit {
         }));
       }
     }
+    this.router.navigate(['/albums']);
   }
 
   onCancel() {

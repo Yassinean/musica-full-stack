@@ -25,6 +25,9 @@ export class AlbumListComponent implements OnInit {
   pageSize = 10
   sortBy = "titre"
 
+  yearControl = new FormControl<number | null>(null);
+  showYearFilter = false;
+
   constructor(
     private readonly store: Store,
     private readonly router: Router,
@@ -67,6 +70,35 @@ export class AlbumListComponent implements OnInit {
       this.loadAlbums()
     }
     return of(undefined)
+  }
+
+  availableYears = Array.from(
+    { length: 51 },
+    (_, i) => new Date().getFullYear() - i
+  );
+
+  toggleYearFilter(): void {
+    this.showYearFilter = !this.showYearFilter;
+  }
+
+  onYearChange(year: number | null): void {
+    if (year) {
+      this.store.dispatch(
+        AlbumActions.filterAlbumsByYear({
+          year,
+          page: this.currentPage,
+          size: this.pageSize,
+          sortBy: this.sortBy,
+        })
+      );
+    } else {
+      this.loadAlbums();
+    }
+  }
+
+  clearYearFilter(): void {
+    this.yearControl.setValue(null);
+    this.loadAlbums();
   }
 
   loadAlbums() {

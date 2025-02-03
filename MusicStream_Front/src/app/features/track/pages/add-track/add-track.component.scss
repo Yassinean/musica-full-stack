@@ -1,38 +1,53 @@
-// Image preview animations
-.image-preview-enter {
-  opacity: 0;
-  transform: scale(0.9);
-}
-
-.image-preview-enter-active {
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity 300ms, transform 300ms;
-}
-
-.image-preview-exit {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.image-preview-exit-active {
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 300ms, transform 300ms;
-}
-
-// Hover effects for the image container
-.group:hover {
-  .remove-image-button {
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-// Image upload input styling
-input[type="file"] {
-  &::file-selector-button {
-    @apply mr-4 py-2 px-4 rounded-full border-0 text-sm font-semibold
-    bg-purple-500 text-white hover:bg-purple-600 transition-colors duration-200;
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Add any additional custom styles here */
+
+// Style the select dropdown
+select {
+  // Remove default select styling
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  // Custom styles for the options
+  option {
+    padding: 8px;
+    margin: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: theme('colors.purple.800') !important;
+    }
+
+    &:checked {
+      background-color: theme('colors.purple.700') !important;
+    }
+  }
+}
+
+// Firefox specific styles
+@-moz-document url-prefix() {
+  select {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.05);
+
+    option {
+      background-color: theme('colors.purple.900');
+      color: white;
+    }
   }
 }
 

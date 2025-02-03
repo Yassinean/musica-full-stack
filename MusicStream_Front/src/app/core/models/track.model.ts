@@ -1,46 +1,28 @@
 export interface Track {
-  id: string;
+  id?: string;
   title: string;
-  artist: string;
   description?: string;
-  addedAt: Date;
-  duration: number;
-  category: MusicCategory;
-  fileUrl: string;
-  imageUrl?: string;
-  imageFileId: string;
+  duree: number;
+  trackNumber: number;
+  albumId: string;
+  category?: MusicCategory;
+  audioFileId: string;
 }
 
-export interface SongRequestDTO {
-  id: string;
-  title: string;
-  artist: string;
-  description?: string;
-  addedAt: Date;
-  duration: number;
-  category: MusicCategory;
-  fileUrl: string;
-  imageUrl?: string;
-  imageFileId: string;
+export interface TrackPage {
+  content: Track[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
 }
-export interface SongResponseDTO {
-  id: string;
-  title: string;
-  artist: string;
-  description?: string;
-  addedAt: Date;
-  duration: number;
-  category: MusicCategory;
-  fileUrl: string;
-  imageUrl?: string;
-  imageFileId: string;
-}
+
 export enum MusicCategory {
-  POP = 'pop',
-  ROCK = 'rock',
-  RAP = 'rap',
-  CHAABI = 'cha3bi',
-  OTHER = 'other'
+  POP = 'POP',
+  ROCK = 'ROCK',
+  RAP = 'RAP',
+  CHAABI = 'CHAABI',
+  OTHER = 'OTHER'
 }
 
 export enum PlayerState {
