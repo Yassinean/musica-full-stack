@@ -1,21 +1,18 @@
-<div class="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 p-6 mt-16">
+<div class="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-800 to-blue-900 p-8 mt-16">
   <div class="max-w-7xl mx-auto">
     <!-- Header with Animation -->
-    <div class="flex justify-between items-center mb-8 animate-fade-in">
+    <div class="flex justify-between items-center mb-10 animate-fade-in">
       <div class="flex items-center space-x-3">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white animate-pulse" fill="none" viewBox="0 0 24 24"
-             stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-400 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
         </svg>
-        <h1 class="text-4xl font-bold text-white">Your Music Library</h1>
+        <h1 class="text-5xl font-extrabold text-white">Your Music Library</h1>
       </div>
-      <button
+      <button *ngIf="isAdmin$ | async"
         (click)="onCreateAlbum()"
-        class="group px-6 py-3 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition-all duration-200 transform hover:scale-105 flex items-center space-x-2"
+        class="group px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 transform hover:scale-105 flex items-center space-x-2"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-200 group-hover:rotate-90"
-             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-200 group-hover:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/>
         </svg>
         <span>Add New Album</span>
@@ -23,12 +20,11 @@
     </div>
 
     <!-- Search Bar with Animation and Select -->
-    <div class="mb-8 animate-fade-in-up" style="animation-delay: 0.2s">
-      <div class="relative max-w-2xl mx-auto flex space-x-2">
-        <!-- Existing search controls -->
+    <div class="mb-10 animate-fade-in-up" style="animation-delay: 0.2s">
+      <div class="relative max-w-3xl mx-auto flex space-x-3">
         <select
           [formControl]="searchTypeControl"
-          class="px-4 py-2 bg-white/10 backdrop-blur-md text-white border-r border-white/20 rounded-l-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          class="px-6 py-3 bg-black/40 backdrop-blur-md text-white border-r border-purple-500/30 rounded-l-full focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
         >
           <option value="title" class="bg-indigo-900">Title</option>
           <option value="artist" class="bg-indigo-900">Artist</option>
@@ -37,14 +33,14 @@
           [formControl]="searchControl"
           type="text"
           [placeholder]="'Search albums by ' + (searchTypeControl.value === 'title' ? 'title' : 'artist') + '...'"
-          class="w-full px-6 py-4 bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-r-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-white/50"
+          class="w-full px-6 py-4 bg-black/40 backdrop-blur-md text-white border border-purple-500/30 rounded-r-full focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-white/50"
         />
 
         <!-- Year Filter Button -->
         <button
           (click)="toggleYearFilter()"
-          class="px-6 py-2 bg-white/10 backdrop-blur-md text-white rounded-full hover:bg-white/20 transition-all duration-200 flex items-center space-x-2"
-          [class.bg-indigo-500]="yearControl.value"
+          class="px-6 py-2 bg-black/40 backdrop-blur-md text-white rounded-full hover:bg-purple-500/30 transition-all duration-200 flex items-center space-x-2"
+          [class.bg-purple-600]="yearControl.value"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -55,20 +51,20 @@
 
       <!-- Year Filter Dropdown -->
       <div *ngIf="showYearFilter"
-           class="absolute z-50 mt-2 max-w-2xl mx-auto right-0 left-0 bg-white/10 backdrop-blur-md rounded-lg shadow-lg p-4 animate-fade-in-down">
-        <div class="flex flex-wrap gap-2 max-h-48 overflow-y-auto">
+           class="absolute z-50 mt-2 max-w-3xl mx-auto right-0 left-0 bg-black/40 backdrop-blur-md rounded-lg shadow-lg p-6 animate-fade-in-down">
+        <div class="flex flex-wrap gap-3 max-h-48 overflow-y-auto">
           <button
             (click)="clearYearFilter()"
-            class="px-4 py-2 rounded-full text-sm font-medium hover:bg-indigo-600 hover:text-white transition-all duration-200 transform hover:scale-105"
-            [ngClass]="!yearControl.value ? 'bg-indigo-500 text-white' : 'bg-white/10 text-indigo-200'"
+            class="px-6 py-3 rounded-full text-sm font-medium hover:bg-purple-600 hover:text-white transition-all duration-200 transform hover:scale-110"
+            [ngClass]="!yearControl.value ? 'bg-purple-600 text-white' : 'bg-black/40 text-purple-200'"
           >
             All Years
           </button>
           <button
             *ngFor="let year of availableYears"
             (click)="onYearChange(year)"
-            class="px-4 py-2 rounded-full text-sm font-medium hover:bg-indigo-600 hover:text-white transition-all duration-200 transform hover:scale-105"
-            [ngClass]="yearControl.value === year ? 'bg-indigo-500 text-white' : 'bg-white/10 text-indigo-200'"
+            class="px-6 py-3 rounded-full text-sm font-medium hover:bg-purple-600 hover:text-white transition-all duration-200 transform hover:scale-110"
+            [ngClass]="yearControl.value === year ? 'bg-purple-600 text-white' : 'bg-black/40 text-purple-200'"
           >
             {{ year }}
           </button>
@@ -78,64 +74,58 @@
 
     <!-- Loading State -->
     <div *ngIf="loading$ | async" class="flex justify-center items-center py-12">
-      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-purple-500"></div>
     </div>
 
     <!-- Error State -->
     <div *ngIf="error$ | async as error"
-         class="max-w-2xl mx-auto mb-6 p-4 bg-red-500/10 backdrop-blur-md border border-red-500/20 text-red-200 rounded-lg animate-fade-in">
+         class="max-w-2xl mx-auto mb-6 p-6 bg-red-500/20 backdrop-blur-md border border-red-500/30 text-red-200 rounded-lg animate-fade-in">
       {{ error }}
     </div>
 
     <!-- Albums Grid -->
     <div *ngIf="albums$ | async as albumsPage"
-         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in-up"
+         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 animate-fade-in-up"
          style="animation-delay: 0.3s">
       <div *ngFor="let album of albumsPage.content; let i = index"
-           class="group bg-white/10 backdrop-blur-md rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105"
+           class="group bg-black/30 backdrop-blur-md rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-105"
            [style.animation-delay]="i * 0.1 + 's'">
         <div class="relative">
           <!-- Album Cover Placeholder -->
-          <div class="aspect-square bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-white/30" fill="none" viewBox="0 0 24 24"
-                 stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+          <div class="aspect-square bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
             </svg>
           </div>
         </div>
         <div class="p-6">
-          <h3 class="text-xl font-semibold text-white mb-2">{{ album.title }}</h3>
-          <p class="text-indigo-200 mb-2">{{ album.artist }}</p>
-          <p class="text-indigo-300 mb-4">{{ album.year }}</p>
+          <h3 class="text-2xl font-semibold text-white mb-3">{{ album.title }}</h3>
+          <p class="text-purple-300 mb-2">{{ album.artist }}</p>
+          <p class="text-purple-400 mb-4">{{ album.year }}</p>
 
           <div class="flex justify-between items-center">
             <button
               [routerLink]="['/albums', album.id]"
-              class="px-4 py-2 bg-indigo-500/20 text-indigo-300 rounded-full hover:bg-indigo-500/30 transition-colors duration-200"
+              class="px-6 py-3 bg-purple-500/20 text-purple-300 rounded-full hover:bg-purple-500/30 transition-all duration-200"
             >
               View Tracks
             </button>
 
-            <div class="flex space-x-2">
-              <button
+            <div class="flex space-x-3">
+              <button *ngIf="isAdmin$ | async"
                 (click)="onEditAlbum(album.id)"
-                class="p-2 text-blue-300 hover:text-blue-200 transition-colors duration-200"
+                class="p-3 text-purple-300 hover:text-purple-200 transition-colors duration-200"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                 </svg>
               </button>
-              <button
+              <button *ngIf="isAdmin$ | async"
                 (click)="onDeleteAlbum(album.id)"
-                class="p-2 text-red-300 hover:text-red-200 transition-colors duration-200"
+                class="p-3 text-red-300 hover:text-red-200 transition-colors duration-200"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                 </svg>
               </button>
             </div>
@@ -145,17 +135,16 @@
     </div>
 
     <!-- Pagination -->
-    <div *ngIf="albums$ | async as albumsPage" class="mt-12 flex justify-center animate-fade-in-up"
-         style="animation-delay: 0.4s">
-      <nav class="flex items-center space-x-2">
+    <div *ngIf="albums$ | async as albumsPage" class="mt-14 flex justify-center animate-fade-in-up" style="animation-delay: 0.4s">
+      <nav class="flex items-center space-x-3">
         <button
           *ngFor="let page of Array(albumsPage.totalPages); let i = index"
           (click)="onPageChange(i)"
           [ngClass]="{
-            'bg-indigo-500 text-white': currentPage === i,
-            'bg-white/10 text-indigo-200': currentPage !== i
+            'bg-purple-600 text-white': currentPage === i,
+            'bg-black/40 text-purple-200': currentPage !== i
           }"
-          class="px-4 py-2 rounded-full text-sm font-medium hover:bg-indigo-600 hover:text-white transition-all duration-200 transform hover:scale-105"
+          class="px-6 py-3 rounded-full text-sm font-medium hover:bg-purple-700 hover:text-white transition-all duration-200 transform hover:scale-110"
         >
           {{ i + 1 }}
         </button>
@@ -163,4 +152,3 @@
     </div>
   </div>
 </div>
-

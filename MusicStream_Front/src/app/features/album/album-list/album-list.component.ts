@@ -6,6 +6,8 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms"
 import { CommonModule } from "@angular/common"
 import { selectAlbums, selectError, selectLoading } from "../../store/album/album.selectors"
 import { debounceTime, distinctUntilChanged, switchMap,Observable, of } from "rxjs"
+import { AuthState } from "../../store/auth/auth.reducer"
+import { selectIsAdmin } from "../../store/auth/auth.selectors"
 
 @Component({
   selector: "app-album-list",
@@ -18,6 +20,7 @@ export class AlbumListComponent implements OnInit {
   albums$ = this.store.select(selectAlbums)
   loading$ = this.store.select(selectLoading)
   error$ = this.store.select(selectError)
+  isAdmin$: Observable<boolean> = this.store.select(selectIsAdmin)
 
   searchControl = new FormControl("")
   searchTypeControl = new FormControl("title")
@@ -29,7 +32,7 @@ export class AlbumListComponent implements OnInit {
   showYearFilter = false;
 
   constructor(
-    private readonly store: Store,
+    private readonly store: Store<{ auth: AuthState }>,
     private readonly router: Router,
   ) {}
 

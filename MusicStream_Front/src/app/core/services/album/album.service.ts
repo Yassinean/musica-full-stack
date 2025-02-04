@@ -1,16 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Album, AlbumRequest, PageResponse } from '../../models/album.model';
-import { Observable } from 'rxjs';
+import {Observable, take} from 'rxjs';
 import { environment} from "../../../../environments/environment";
+import {Store} from "@ngrx/store";
+import {AuthState} from "../../../features/store/auth/auth.reducer";
+import {map} from "rxjs/operators";
+import {jwtDecode} from "jwt-decode";
 
 @Injectable({
   providedIn: 'root',
 })
 export class AlbumService {
   private readonly apiUrl = `${environment.apiUrl}/api`;
+  private userRole: string = '';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient , private readonly store: Store<{ auth: AuthState }>) {
+    this.store.select(state => state.auth).pipe(
+      take(1),
+      map(authState => {
+        if (authState.token) {
+          const decodedToken: any = jwtDecode(authState.token);
+          this.userRole = decodedToken.roles?.[0] || ''; // Assuming roles is an array
+        }
+      })
+    ).subscribe();
+  }
+  private getEndpoint(prefix: string): string {
+    return this.userRole === 'ROLE_ADMIN' ? `${this.apiUrl}/admin${prefix}` : `${this.apiUrl}/user${prefix}`;
+  }
 
   // Get all albums
   getAlbums(page: number, size: number, sortBy: string): Observable<PageResponse<Album>> {
@@ -19,7 +37,7 @@ export class AlbumService {
       .set('size', size.toString())
       .set('sortBy', sortBy);
 
-    return this.http.get<PageResponse<Album>>(`${this.apiUrl}/user/albums`, { params });
+    return this.http.get<PageResponse<Album>>(this.getEndpoint('/albums'), { params });
   }
 
   // Search albums by title
@@ -30,7 +48,7 @@ export class AlbumService {
       .set('size', size.toString())
       .set('sortBy', sortBy);
 
-    return this.http.get<PageResponse<Album>>(`${this.apiUrl}/user/albums/search`, { params });
+    return this.http.get<PageResponse<Album>>(this.getEndpoint('/albums/search'), { params });
   }
 
   // Search albums by artist
@@ -41,7 +59,7 @@ export class AlbumService {
       .set('size', size.toString())
       .set('sortBy', sortBy);
 
-    return this.http.get<PageResponse<Album>>(`${this.apiUrl}/user/albums/artist`, { params });
+    return this.http.get<PageResponse<Album>>(this.getEndpoint('/albums/artist'), { params });
   }
 
   // Filter albums by year
@@ -52,7 +70,7 @@ export class AlbumService {
       .set('size', size.toString())
       .set('sortBy', sortBy);
 
-    return this.http.get<PageResponse<Album>>(`${this.apiUrl}/user/albums/year`, { params });
+    return this.http.get<PageResponse<Album>>(this.getEndpoint('/albums/year'), { params });
   }
 
   // Create a new album
@@ -71,6 +89,6 @@ export class AlbumService {
   }
 
   getAlbumById(id: string): Observable<Album> {
-    return this.http.get<Album>(`${this.apiUrl}/admin/albums/detail_album/${id}`);
+    return this.http.get<Album>(this.getEndpoint(`/albums/detail_album/${id}`));
   }
 }

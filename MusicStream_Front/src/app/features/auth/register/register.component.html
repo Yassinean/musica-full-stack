@@ -1,109 +1,121 @@
-<div class="min-h-screen bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center p-4">
-  <div class="max-w-md w-full bg-white rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-[1.02]">
-    <div class="p-8">
-      <!-- Logo and Title -->
-      <div class="text-center mb-8">
-        <div class="flex justify-center mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
-          </svg>
+<div class="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-800 to-blue-900 flex items-center justify-center p-4">
+  <div class="max-w-4xl w-full bg-black bg-opacity-30 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden">
+    <div class="flex flex-col md:flex-row">
+      <!-- Left side: Image and branding -->
+      <div class="md:w-1/2 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/random/800x600?concert');">
+        <div class="h-full w-full bg-black bg-opacity-50 p-12 flex flex-col justify-between">
+          <div class="text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13"></path>
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="18" cy="16" r="3"></circle>
+            </svg>
+            <h1 class="text-4xl font-bold mb-2">MusicStream</h1>
+            <p class="text-xl">Join the rhythm revolution</p>
+          </div>
+          <div class="text-white text-sm">
+            &copy; 2023 MusicStream. All rights reserved.
+          </div>
         </div>
-        <h2 class="text-3xl font-bold text-gray-800 mb-2">Create Account</h2>
-        <p class="text-gray-600">Join MusicStream today</p>
       </div>
 
-      <!-- Register Form -->
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
-        <!-- Username Field -->
-        <div class="space-y-2">
-          <label for="username" class="text-sm font-medium text-gray-700 block">Username</label>
-          <div class="relative">
-            <input
-              type="text"
-              id="username"
-              formControlName="username"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-              [ngClass]="{'border-red-500 focus:ring-red-500': registerForm.get('username')?.invalid && registerForm.get('username')?.touched}"
-              placeholder="Choose a username"
-            />
-            <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
-                 class="absolute -bottom-5 left-0 text-red-500 text-xs animate-fade-in">
-              Username is required
+      <!-- Right side: Register form -->
+      <div class="md:w-1/2 p-12">
+        <h2 class="text-3xl font-bold text-white mb-6">Create Your Account</h2>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
+          <!-- Username Field -->
+          <div class="space-y-2">
+            <label for="username" class="text-sm font-medium text-gray-300 block">Username</label>
+            <div class="relative">
+              <input
+                type="text"
+                id="username"
+                formControlName="username"
+                class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                [ngClass]="{'border-red-500 focus:ring-red-500': registerForm.get('username')?.invalid && registerForm.get('username')?.touched}"
+                placeholder="Choose a username"
+              />
+              <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
+                   class="absolute -bottom-5 left-0 text-red-400 text-xs">
+                Username is required
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Password Field -->
-        <div class="space-y-2">
-          <label for="password" class="text-sm font-medium text-gray-700 block">Password</label>
-          <div class="relative">
-            <input
-              type="password"
-              id="password"
-              formControlName="password"
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-              [ngClass]="{'border-red-500 focus:ring-red-500': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}"
-              placeholder="Create a password"
-            />
-            <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-                 class="absolute -bottom-5 left-0 text-red-500 text-xs animate-fade-in">
-              Password must be at least 6 characters
+          <!-- Password Field -->
+          <div class="space-y-2">
+            <label for="password" class="text-sm font-medium text-gray-300 block">Password</label>
+            <div class="relative">
+              <input
+                type="password"
+                id="password"
+                formControlName="password"
+                class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                [ngClass]="{'border-red-500 focus:ring-red-500': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}"
+                placeholder="Create a password"
+              />
+              <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                   class="absolute -bottom-5 left-0 text-red-400 text-xs">
+                Password must be at least 6 characters
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Role Selection -->
-        <div class="space-y-2">
-          <label for="roles" class="text-sm font-medium text-gray-700 block">Roles</label>
-          <div class="relative">
-            <select
-              id="roles"
-              formControlName="roles"
-              multiple
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white"
-              [ngClass]="{'border-red-500 focus:ring-red-500': registerForm.get('roles')?.invalid && registerForm.get('roles')?.touched}"
-            >
-              <option *ngFor="let role of roles" [value]="role">
-                {{ role }}
-              </option>
-            </select>
-            <div *ngIf="registerForm.get('roles')?.invalid && registerForm.get('roles')?.touched"
-                 class="absolute -bottom-5 left-0 text-red-500 text-xs animate-fade-in">
-              At least one role selection is required
+          <!-- Role Selection -->
+          <div class="space-y-2">
+            <label for="roles" class="text-sm font-medium text-gray-300 block">Roles (Select at least one)</label>
+            <div class="relative">
+              <select
+                id="roles"
+                formControlName="roles"
+                multiple
+                class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                [ngClass]="{'border-red-500 focus:ring-red-500': registerForm.get('roles')?.invalid && registerForm.get('roles')?.touched}"
+              >
+                <option *ngFor="let role of roles" [value]="role">
+                  {{ role }}
+                </option>
+              </select>
+              <div *ngIf="registerForm.get('roles')?.invalid && registerForm.get('roles')?.touched"
+                   class="absolute -bottom-5 left-0 text-red-400 text-xs">
+                At least one role selection is required
+              </div>
             </div>
           </div>
-        </div>
-        <!-- Submit Button -->
-        <button
-          type="submit"
-          [disabled]="registerForm.invalid || loading"
-          class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <span *ngIf="!loading">Create Account</span>
-          <div *ngIf="loading" class="flex items-center space-x-2">
-            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <span>Creating account...</span>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            [disabled]="registerForm.invalid || loading"
+            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span *ngIf="!loading">Create Account</span>
+            <div *ngIf="loading" class="flex items-center space-x-2">
+              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span>Creating account...</span>
+            </div>
+          </button>
+
+          <!-- Error Message -->
+          <div *ngIf="error"
+               class="p-3 rounded-lg bg-red-900 border border-red-700 text-red-300 text-sm text-center">
+            {{ error }}
           </div>
-        </button>
 
-        <!-- Error Message -->
-        <div *ngIf="error"
-             class="p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm text-center animate-fade-in">
-          {{ error }}
-        </div>
-
-        <!-- Sign In Link -->
-        <div class="text-center text-sm text-gray-600">
-          Already have an account?
-          <a routerLink="/auth/login"
-             class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200 ml-1">
-            Sign in
-          </a>
-        </div>
-      </form>
+          <!-- Sign In Link -->
+          <div class="text-center text-sm text-gray-400">
+            Already have an account?
+            <a routerLink="/auth/login"
+               class="font-medium text-purple-400 hover:text-purple-300 transition-colors duration-200 ml-1">
+              Sign in
+            </a>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
+

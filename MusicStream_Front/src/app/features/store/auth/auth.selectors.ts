@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { AuthState } from './auth.reducer';
-import {jwtDecode} from "jwt-decode"; // Adjust the import path as necessary
+import {jwtDecode} from "jwt-decode";
 
 export const selectAuthState = (state: { auth: AuthState }) => state.auth;
 

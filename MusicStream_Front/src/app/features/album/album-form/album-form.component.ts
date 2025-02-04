@@ -24,6 +24,7 @@ export class AlbumFormComponent implements OnInit {
   albumId: string | null = null;
   loading$ = this.store.select(selectLoading);
   error$ = this.store.select(selectError);
+  currentYear: number = new Date().getFullYear()
 
   constructor(
     private readonly fb: FormBuilder,
@@ -34,7 +35,7 @@ export class AlbumFormComponent implements OnInit {
     this.albumForm = this.fb.group({
       title: ['', [Validators.required]],
       artist: ['', [Validators.required]],
-      year: ['', [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]]
+      year: ['', [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
     });
   }
 

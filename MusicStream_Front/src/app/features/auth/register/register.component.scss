@@ -1,8 +1,32 @@
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-in-out;
+.backdrop-blur-lg {
+  backdrop-filter: blur(16px);
 }
+
+/* Custom styles for the multi-select dropdown */
+select[multiple] {
+  height: auto;
+  min-height: 120px;
+}
+
+select[multiple] option {
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  transition: all 0.2s;
+}
+
+select[multiple] option:checked {
+  background: linear-gradient(to right, #9333ea, #6366f1);
+  color: white;
+}
+
+select[multiple] option:hover {
+  background-color: rgba(147, 51, 234, 0.1);
+}
+

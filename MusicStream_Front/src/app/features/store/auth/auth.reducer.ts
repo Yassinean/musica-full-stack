@@ -8,6 +8,7 @@ export interface AuthState {
   loading: boolean;
   error: string | null;
   isAuthenticated: boolean;
+  roles: string[];
 }
 
 export const initialState: AuthState = {
@@ -17,6 +18,7 @@ export const initialState: AuthState = {
   loading: false,
   error: null,
   isAuthenticated: false,
+  roles: []
 };
 
 export const authReducer = createReducer(
