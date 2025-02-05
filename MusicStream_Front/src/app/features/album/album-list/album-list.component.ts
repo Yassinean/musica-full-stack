@@ -1,20 +1,21 @@
-import { Component, type OnInit } from "@angular/core"
+import { Component, OnInit } from "@angular/core"
 import { Store } from "@ngrx/store"
-import {  Router, RouterLink } from "@angular/router"
+import { ActivatedRoute, Router, RouterLink } from "@angular/router"
 import * as AlbumActions from "../../store/album/album.actions"
 import { FormControl, ReactiveFormsModule } from "@angular/forms"
 import { CommonModule } from "@angular/common"
 import { selectAlbums, selectError, selectLoading } from "../../store/album/album.selectors"
-import { debounceTime, distinctUntilChanged, switchMap,Observable, of } from "rxjs"
+import { debounceTime, distinctUntilChanged, switchMap, Observable, of } from "rxjs"
 import { AuthState } from "../../store/auth/auth.reducer"
 import { selectIsAdmin } from "../../store/auth/auth.selectors"
+import { Album, PageResponse } from "src/app/core/models/album.model"
 
 @Component({
   selector: "app-album-list",
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: "./album-list.component.html",
-  styleUrl: "./album-list.component.scss",
+  styleUrls: ["./album-list.component.scss"],
 })
 export class AlbumListComponent implements OnInit {
   albums$ = this.store.select(selectAlbums)
@@ -28,21 +29,38 @@ export class AlbumListComponent implements OnInit {
   pageSize = 10
   sortBy = "titre"
 
-  yearControl = new FormControl<number | null>(null);
-  showYearFilter = false;
+  yearControl = new FormControl<number | null>(null)
+  showYearFilter = false
+
+  availableYears = Array.from(
+    { length: 51 },
+    (_, i) => new Date().getFullYear() - i
+  )
 
   constructor(
     private readonly store: Store<{ auth: AuthState }>,
     private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit() {
-    this.loadAlbums()
+    this.activatedRoute.data.subscribe((data) => {
+      const albums: PageResponse<Album> = data['albums']
+      if (!albums) {
+        this.loadAlbums()
+      } else {
+        // Dispatch action if albums are provided via router data
+        this.store.dispatch(
+          AlbumActions.loadAlbumsSuccess({ albums })
+        )
+      }
+    })
+
     this.searchControl.valueChanges
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        switchMap((value) => this.handleSearch(value)),
+        switchMap((value) => this.handleSearch(value))
       )
       .subscribe()
   }
@@ -57,7 +75,7 @@ export class AlbumListComponent implements OnInit {
             page: this.currentPage,
             size: this.pageSize,
             sortBy: this.sortBy,
-          }),
+          })
         )
       } else {
         this.store.dispatch(
@@ -66,7 +84,7 @@ export class AlbumListComponent implements OnInit {
             page: this.currentPage,
             size: this.pageSize,
             sortBy: this.sortBy,
-          }),
+          })
         )
       }
     } else {
@@ -75,13 +93,8 @@ export class AlbumListComponent implements OnInit {
     return of(undefined)
   }
 
-  availableYears = Array.from(
-    { length: 51 },
-    (_, i) => new Date().getFullYear() - i
-  );
-
   toggleYearFilter(): void {
-    this.showYearFilter = !this.showYearFilter;
+    this.showYearFilter = !this.showYearFilter
   }
 
   onYearChange(year: number | null): void {
@@ -93,15 +106,15 @@ export class AlbumListComponent implements OnInit {
           size: this.pageSize,
           sortBy: this.sortBy,
         })
-      );
+      )
     } else {
-      this.loadAlbums();
+      this.loadAlbums()
     }
   }
 
   clearYearFilter(): void {
-    this.yearControl.setValue(null);
-    this.loadAlbums();
+    this.yearControl.setValue(null)
+    this.loadAlbums()
   }
 
   loadAlbums() {
@@ -110,7 +123,7 @@ export class AlbumListComponent implements OnInit {
         page: this.currentPage,
         size: this.pageSize,
         sortBy: this.sortBy,
-      }),
+      })
     )
   }
 
@@ -139,4 +152,3 @@ export class AlbumListComponent implements OnInit {
 
   protected readonly Array = Array
 }
-

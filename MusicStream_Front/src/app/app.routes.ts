@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { AlbumResolver } from './features/store/album/AlbumResolver';
 
 export const routes: Routes = [
   {
@@ -39,22 +40,9 @@ export const routes: Routes = [
             (m) => m.AlbumListComponent
           ),
         canActivate: [() => AuthGuard(['ROLE_USER', 'ROLE_ADMIN'])],
-      },
-      {
-        path: 'create',
-        loadComponent: () =>
-          import('./features/album/album-form/album-form.component').then(
-            (m) => m.AlbumFormComponent
-          ),
-        canActivate: [() => AuthGuard(['ROLE_ADMIN'])],
-      },
-      {
-        path: 'edit/:id',
-        loadComponent: () =>
-          import('./features/album/album-form/album-form.component').then(
-            (m) => m.AlbumFormComponent
-          ),
-        canActivate: [() => AuthGuard(['ROLE_ADMIN'])],
+        resolve: {
+          albums: AlbumResolver,
+        },
       },
       {
         path: ':id',
